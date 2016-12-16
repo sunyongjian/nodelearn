@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>click</title>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+<script>
+    function ajax({method='GET',url=new Error('url is required')}){
+        return new Promise(function(resolve,reject){
+            var xhr = new XMLHttpRequest;
+            xhr.open(method,url,true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        resolve(xhr.response);
+                    }else{
+                        reject(xhr.response);
+                    }
+                }
+            }
+            xhr.send();
+        });
+    }
+
+    ajax({url:'1.txt'})
+    .then(function(data){
+       console.log(data);
+       return ajax({url:data});
+    }).then(function(data){
+        console.log(data);
+        return ajax({url:data});
+    }).then(function(data){
+        console.log(data);
+    });
+
+</script>
+</html>
